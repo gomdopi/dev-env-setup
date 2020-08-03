@@ -7,15 +7,16 @@
 
 Copy directory contents to $ZSH_CUSTOM
 
+---
+
 # More Details
 ## alias.zsh
 ### alias ujv
 Make sure to set the following:
 
-`
-$ JAVA_HOME=/opt/java/current
-
-$ PATH=$JAVA_HOME/bin:$PATH
-`
+```console
+$ export JAVA_HOME=/opt/java/current
+$ export PATH=$JAVA_HOME/bin:$PATH
+```
 
 https://stackoverflow.com/a/60377885
