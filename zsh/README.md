@@ -11,7 +11,7 @@ Copy directory contents to $ZSH_CUSTOM
 
 # More Details
 ## alias.zsh
-### alias ujv
+### alias ujv (update java version)
 Make sure to set the following:
 
 ```console
