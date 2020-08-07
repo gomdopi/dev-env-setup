@@ -14,9 +14,23 @@ Copy directory contents to $ZSH_CUSTOM
 ### alias ujv (update java version)
 Make sure to set the following:
 
-```console
+```
 $ export JAVA_HOME=/opt/java/current
 $ export PATH=$JAVA_HOME/bin:$PATH
 ```
 
 https://stackoverflow.com/a/60377885
+
+## scripts.zsh
+### gcr()
+Parentheses inside the curly braces are to run the script in a subshell or child process
+```
+gcr() {( <===
+	//...
+)}
+^
+|
+|
+```
+
+https://www.tldp.org/LDP/abs/html/subshells.html

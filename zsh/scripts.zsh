@@ -10,4 +10,38 @@ mkcd() {
 }
 
 #git
-gcr() { ~/dev/scripts/git-create-repo.sh $1; }
+gcr() {(
+	set -e
+
+	if [[ $PWD/ != ~/dev/git/* ]]; then
+		echo "Directory not under ~/dev/git/"
+		exit 1
+	fi
+
+	repository_name=${PWD##*/}
+	token=80741eee6a0929d19413751088c1ddd9f6eafd95
+	success_response="Repository successfully created"
+	error_response="Error"
+	response_code="Response Code:"
+
+	response=$(curl -s -o /dev/null -w '%{http_code}' \
+		-H "Authorization: token $token" \
+		https://api.github.com/user/repos \
+		-d "{ \"name\":\"${repository_name}\" }")
+
+	if [[ $response == 201 ]]; then
+		echo ${success_response}
+		echo ${response_code} $response
+	else
+		echo ${error_response}
+		echo ${response_code} $response
+		exit 1
+	fi
+
+	git init
+	touch README.md
+	git add README.md
+	git commit -m "initial commit"
+	git remote add origin git@github.com:gomdopi/${repository_name}.git
+	git push -u origin master
+)}
