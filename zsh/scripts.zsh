@@ -1,5 +1,5 @@
 #general
-mkcd() {
+mkcd() { #mkdir && cd
 	if [ ! -n "$1" ]; then
 		echo "Enter a directory name"
 	elif [ -d $1 ]; then
@@ -10,7 +10,7 @@ mkcd() {
 }
 
 #git
-gcr() {(
+gcr() {( #git-create-repo
 	set -e
 
 	if [[ $PWD/ != ~/dev/git/* ]]; then

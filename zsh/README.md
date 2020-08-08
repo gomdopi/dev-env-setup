@@ -23,7 +23,8 @@ https://stackoverflow.com/a/60377885
 
 ## scripts.zsh
 ### gcr()
-Parentheses inside the curly braces are to run the script in a subshell or child process
+Parentheses `()` inside the curly braces `{}` are to run the script in a subshell such that
+the `exit 1` command inside the function exits the subshell instead of the main terminal shell
 ```
 gcr() {( <===
 	//...
