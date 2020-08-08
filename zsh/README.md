@@ -27,36 +27,39 @@
 ### gcr()
 - Set the following that makes sense for your set-up:
   - **${GIT_DIRECTORY}**
+  
     > This assures you are only creating git repos in directories/projects under the specified directory
-  ```
-  ...
-  if [[ $PWD/ != ${GIT_DIRECTORY}/* ]]; then
-      echo "Directory not under ${GIT_DIRECTORY}"
-      exit 1
-  fi
-  ...
-  ``` 
+    ```
+    ...
+    if [[ $PWD/ != ${GIT_DIRECTORY}/* ]]; then
+        echo "Directory not under ${GIT_DIRECTORY}"
+        exit 1
+    fi
+    ...
+    ``` 
   
   - **${TOKEN}**
+  
     > Required for access to github's APIs to create repos via CLI
-  ```
-  ...
-  repository_name=${PWD##*/}
-  token=${TOKEN}
-  success_response="Repository successfully created"
-  ...
-  ```
+    ```
+    ...
+    repository_name=${PWD##*/}
+    token=${TOKEN}
+    success_response="Repository successfully created"
+    ...
+    ```
+    https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
   
   - **${GITHUB_USERNAME}**
+  
     > Should be your github username
-  ```
-  ...
-  git commit -m "initial commit"
-  git remote add origin git@github.com:${GITHUB_USERNAME}/${repository_name}.git
-  git push -u origin master
-  ...
-  ```
-
+    ```
+    ...
+    git commit -m "initial commit"
+    git remote add origin git@github.com:${GITHUB_USERNAME}/${repository_name}.git
+    git push -u origin master
+    ...
+    ```
 
 - Parentheses `()` inside the curly braces `{}` are to run the script in a subshell such that
   the `exit 1` command inside the function exits the subshell instead of the main terminal shell:
