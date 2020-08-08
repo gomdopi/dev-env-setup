@@ -49,6 +49,7 @@
     ...
     ```
     >   e.g. ${PATH_TO_FILE_WITH_PERSONAL_ACCESS_TOKEN} = ~/github/tokens/repo
+    >
     >   You could also directly copy in your personal access token. I just set it up this way so my token isn't exposed
     [Creating A Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
   
