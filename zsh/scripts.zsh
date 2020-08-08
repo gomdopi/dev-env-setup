@@ -43,7 +43,7 @@ gcr() {( #git-create-repo
 		https://api.github.com/user/repos \
 		-d "{ \"name\":\"${repository_name}\" }")
 
-	if [[ $response == 201 ]]; then
+	if [[ "$response" == "201" ]]; then
 		echo ${success_response}
 		echo ${response_code} $response
 	else
