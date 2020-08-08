@@ -2,18 +2,6 @@
   <img src="/resources/images/oh-my-zsh-logo.png" alt="Oh My Zsh">
 </p>
 
-<div>
-<pre background-color: gray><code>
-testing
-</code></pre>
-</div>
-
-<div>
-<pre style="color: blue"><code>
-testing2
-</code></pre>
-</div>
-
 # Installation/Set-up
 ## [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh)
 
@@ -26,7 +14,7 @@ testing2
 ### alias ujv (update java version)
 - Make sure to set the following:
 
-  ```
+  ```zsh
   $ export JAVA_HOME=/opt/java/current
   $ export PATH=$JAVA_HOME/bin:$PATH
   ```
@@ -41,7 +29,7 @@ testing2
   - **${GIT_DIRECTORY}**
   
     > This assures you are only creating git repos in directories/projects under the specified directory
-    ```
+    ```sh
     ...
     if [[ $PWD/ != ${GIT_DIRECTORY}/* ]]; then
         echo "Directory not under ${GIT_DIRECTORY}"
@@ -53,7 +41,7 @@ testing2
   - **${TOKEN}**
   
     > Required for access to GitHub's APIs to create repos via CLI
-    ```
+    ```sh
     ...
     repository_name=${PWD##*/}
     token=${TOKEN}
@@ -65,7 +53,7 @@ testing2
   - **${GITHUB_USERNAME}**
   
     > Should be your GitHub username
-    ```
+    ```sh
     ...
     git commit -m "initial commit"
     git remote add origin git@github.com:${GITHUB_USERNAME}/${repository_name}.git
@@ -75,7 +63,7 @@ testing2
 
 - Parentheses `()` inside the curly braces `{}` are to run the script in a subshell such that
   the `exit 1` command inside the function exits the subshell instead of the main terminal shell:
-  ```zsh
+  ```sh
   gcr() {( <===
     //...
   )}
