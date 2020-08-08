@@ -2,6 +2,14 @@
   <img src="/resources/images/oh-my-zsh-logo.png" alt="Oh My Zsh">
 </p>
 
+<code background-color: gray>
+testing
+</code>
+
+<code style="background-color: gray">
+testing2
+</code>
+
 # Installation/Set-up
 ## [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh)
 
@@ -73,8 +81,3 @@
   ```
 
   https://www.tldp.org/LDP/abs/html/subshells.html
-
-
-<code>
-testing
-</code>
