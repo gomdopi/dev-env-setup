@@ -24,7 +24,7 @@ https://stackoverflow.com/a/60377885
 ## scripts.zsh
 ### gcr()
 - Set the following that makes sense for your set-up:
-  - ${GIT_DIRECTORY}
+  - **${GIT_DIRECTORY}**
     > This assures you are only creating git repos in directories/projects under the specified directory
   ```
   ...
@@ -34,7 +34,7 @@ https://stackoverflow.com/a/60377885
   fi
   ...
   ``` 
-  - ${TOKEN}
+  - **${TOKEN}**
     > This is for you to have access to the github api to create repos via cli
   ```
   ...
@@ -43,7 +43,7 @@ https://stackoverflow.com/a/60377885
   success_response="Repository successfully created"
   ...
   ```
-  - ${GITHUB_USERNAME}
+  - **${GITHUB_USERNAME}**
     > This is your github's base url in ssh format
   ```
   ...
