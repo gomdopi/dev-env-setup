@@ -48,9 +48,12 @@
     success_response="Repository successfully created"
     ...
     ```
-    >   e.g. ${PATH_TO_FILE_WITH_PERSONAL_ACCESS_TOKEN} = ~/github/tokens/repo
+    >   e.g. `${PATH_TO_FILE_WITH_PERSONAL_ACCESS_TOKEN} = ~/github/tokens/repo`
+    >
+    >   where `repo` would be a one-line file containing just the personal access token
     >
     >   You could also directly copy in your personal access token. I just set it up this way so my token isn't exposed
+    
     [Creating A Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
   
   - **${GITHUB_USERNAME}**
@@ -75,4 +78,4 @@
   |
   ```
 
-  https://www.tldp.org/LDP/abs/html/subshells.html
+  [Subshells](https://www.tldp.org/LDP/abs/html/subshells.html)
