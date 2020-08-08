@@ -1,15 +1,29 @@
-#general
+####################
+###### general #####
+####################
 mkcd() { #mkdir && cd
-	if [ ! -n "$1" ]; then
+	if [[ ! -n "$1" ]]; then
 		echo "Enter a directory name"
-	elif [ -d $1 ]; then
+	elif [[ -d "$1" ]]; then
 		echo "\`$1' already exists"
 	else
-		mkdir -p $1 && cd $1
+		mkdir -p "$1" && cd "$1"
 	fi
 }
 
-#git
+mktc() { #mkdir && touch
+	if [[ ! -n "$1" ]]; then
+		echo "Enter a directory/file name"
+	elif [[ -d "$(dirname "$1")" || -f "$1" ]]; then
+		echo "\`$1' already exists"
+	else
+		mkdir -p "$(dirname "$1")" && touch "$1"
+	fi
+}
+
+###############
+##### git #####
+###############
 gcr() {( #git-create-repo
 	set -e
 
