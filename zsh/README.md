@@ -14,12 +14,14 @@
 ### alias ujv (update java version)
 - Make sure to set the following:
 
-```
-$ export JAVA_HOME=/opt/java/current
-$ export PATH=$JAVA_HOME/bin:$PATH
-```
+  ```
+  $ export JAVA_HOME=/opt/java/current
+  $ export PATH=$JAVA_HOME/bin:$PATH
+  ```
 
-https://stackoverflow.com/a/60377885
+  https://stackoverflow.com/a/60377885
+
+---
 
 ## scripts.zsh
 ### gcr()
@@ -34,8 +36,9 @@ https://stackoverflow.com/a/60377885
   fi
   ...
   ``` 
+  
   - **${TOKEN}**
-    > This is for you to have access to the github api to create repos via cli
+    > Required for access to github's APIs to create repos via CLI
   ```
   ...
   repository_name=${PWD##*/}
@@ -43,8 +46,9 @@ https://stackoverflow.com/a/60377885
   success_response="Repository successfully created"
   ...
   ```
+  
   - **${GITHUB_USERNAME}**
-    > This is your github's base url in ssh format
+    > Should be your github username
   ```
   ...
   git commit -m "initial commit"
@@ -55,14 +59,14 @@ https://stackoverflow.com/a/60377885
 
 
 - Parentheses `()` inside the curly braces `{}` are to run the script in a subshell such that
-the `exit 1` command inside the function exits the subshell instead of the main terminal shell:
-```
-gcr() {( <===
+  the `exit 1` command inside the function exits the subshell instead of the main terminal shell:
+  ```
+  gcr() {( <===
     //...
-)}
-^
-|
-|
-```
+  )}
+  ^
+  |
+  |
+  ```
 
-https://www.tldp.org/LDP/abs/html/subshells.html
+  https://www.tldp.org/LDP/abs/html/subshells.html
