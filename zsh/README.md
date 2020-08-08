@@ -6,7 +6,7 @@
 testing
 </code>
 
-<code style="background-color: gray">
+<code style="color: blue">
 testing2
 </code>
 
