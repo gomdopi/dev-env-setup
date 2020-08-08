@@ -25,7 +25,7 @@
 
 ## scripts.zsh
 ### gcr()
-- Set the following that makes sense for your set-up:
+- Set the following such that it makes sense for your set-up:
   - **${GIT_DIRECTORY}**
   
     > This assures you are only creating git repos in directories/projects under the specified directory
