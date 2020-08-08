@@ -30,23 +30,17 @@
   
     > This assures you are only creating git repos in directories/projects under the specified directory
     ```sh
-    ...
     if [[ $PWD/ != ${GIT_DIRECTORY}/* ]]; then
         echo "Directory not under ${GIT_DIRECTORY}"
         exit 1
     fi
-    ...
     ``` 
   
   - **${PATH_TO_FILE_WITH_PERSONAL_ACCESS_TOKEN}**
   
     > Required for access to GitHub's APIs to create repos via CLI
     ```sh
-    ...
-    repository_name=${PWD##*/}
     token=$(cat ${PATH_TO_FILE_WITH_PERSONAL_ACCESS_TOKEN})
-    success_response="Repository successfully created"
-    ...
     ```
     >   e.g. `${PATH_TO_FILE_WITH_PERSONAL_ACCESS_TOKEN} = ~/github/tokens/repo`
     >
@@ -62,11 +56,7 @@
   
     > Should be your GitHub username
     ```sh
-    ...
-    git commit -m "initial commit"
     git remote add origin git@github.com:${GITHUB_USERNAME}/${repository_name}.git
-    git push -u origin master
-    ...
     ```
 
 - Parentheses `()` inside the curly braces `{}` are to run the script in a subshell such that
