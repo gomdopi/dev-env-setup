@@ -2,13 +2,17 @@
   <img src="/resources/images/oh-my-zsh-logo.png" alt="Oh My Zsh">
 </p>
 
+<div>
 <pre background-color: gray><code>
 testing
 </code></pre>
+</div>
 
+<div>
 <pre style="color: blue"><code>
 testing2
 </code></pre>
+</div>
 
 # Installation/Set-up
 ## [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh)
