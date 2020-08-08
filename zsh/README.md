@@ -40,7 +40,7 @@
   
   - **${TOKEN}**
   
-    > Required for access to github's APIs to create repos via CLI
+    > Required for access to GitHub's APIs to create repos via CLI
     ```
     ...
     repository_name=${PWD##*/}
@@ -52,7 +52,7 @@
   
   - **${GITHUB_USERNAME}**
   
-    > Should be your github username
+    > Should be your GitHub username
     ```
     ...
     git commit -m "initial commit"
@@ -63,7 +63,7 @@
 
 - Parentheses `()` inside the curly braces `{}` are to run the script in a subshell such that
   the `exit 1` command inside the function exits the subshell instead of the main terminal shell:
-  ```
+  ```console
   gcr() {( <===
     //...
   )}
