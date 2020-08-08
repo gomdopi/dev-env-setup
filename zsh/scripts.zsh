@@ -33,7 +33,7 @@ gcr() {( #git-create-repo
 	fi
 
 	repository_name=${PWD##*/}
-	token=80741eee6a0929d19413751088c1ddd9f6eafd95
+	token=$(cat ~/dev/resources/secrets/github-repo-pat)
 	success_response="Repository successfully created"
 	error_response="Error"
 	response_code="Response Code:"

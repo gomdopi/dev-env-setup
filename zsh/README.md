@@ -19,7 +19,7 @@
   $ export PATH=$JAVA_HOME/bin:$PATH
   ```
 
-  https://stackoverflow.com/a/60377885
+  [Setting up your own alternatives](https://stackoverflow.com/a/60377885)
 
 ---
 
@@ -38,17 +38,19 @@
     ...
     ``` 
   
-  - **${TOKEN}**
+  - **${PATH_TO_FILE_WITH_PERSONAL_ACCESS_TOKEN}**
   
     > Required for access to GitHub's APIs to create repos via CLI
     ```sh
     ...
     repository_name=${PWD##*/}
-    token=${TOKEN}
+    token=$(cat ${PATH_TO_FILE_WITH_PERSONAL_ACCESS_TOKEN})
     success_response="Repository successfully created"
     ...
     ```
-    https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+    >   e.g. ${PATH_TO_FILE_WITH_PERSONAL_ACCESS_TOKEN} = ~/github/tokens/repo
+    >   You could also directly copy in your personal access token. I just set it up this way so my token isn't exposed
+    [Creating A Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
   
   - **${GITHUB_USERNAME}**
   
