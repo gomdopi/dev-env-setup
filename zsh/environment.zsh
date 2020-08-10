@@ -1,1 +1,2 @@
-export PATH=$JAVA_HOME/bin:$PATH
+export JAVA_HOME=/opt/java/current/bin
+export PATH=$JAVA_HOME:$PATH
