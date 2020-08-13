@@ -1,110 +1,153 @@
+fix broken sudo (https://www.linuxuprising.com/2019/09/fix-username-is-not-in-sudoers-file.html)
+	$ su -		# change to root; `-` runs a login shell so things like /etc/profile, .bashrc, etc are executed && commands such as `usermod` are found in PATH
+	$ usermod -aG sudo gomdopi		# add username=gomdopito group sudo
+	$ exit		# exit root
+	log out of account and then log back in for addition to sudo to take effect
+
+fix login screen on wrong monitor (https://askubuntu.com/questions/11738/force-gdm-login-screen-to-the-primary-monitor)
+	set up monitor display/orientation via system settings -> Devices -> Displays
+	$ sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/		# monitors.xml file will be created in ~/.config once you set it up via system settings
+
 install curl
 	sudo apt update
 	sudo apt install curl
 
-install zsh
-	sudo apt update
-	sudo apt install zsh
-	https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH
-
-install git
-	sudo apt update
-	sudo apt install git
-	https://git-scm.com/download/linux
-
-install oh-my-zsh
-	sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	https://github.com/ohmyzsh/ohmyzsh
-	# need to log out and back in for default shell change to zsh to take effect
-
-install powerline fonts #to fix missing emojis/icons (https://github.com/powerline/fonts)
-	sudo apt-get install fonts-powerline
-
-set up ssh key with github
-	https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh
-
-setting up oh-my-zsh
-	clone the repo (https://github.com/gomdopi/dev-env-setup/tree/master/zsh)
-		git clone git@github.com:gomdopi/dev-env-setup.git
-	cd to repo root
-		cd dev-env-setup
-	copy files to custom directory (https://stackoverflow.com/a/8088439)
-		setopt extendedglob
-		cp -r /zsh*~*.md ~/.oh-my-zsh/custom/ (zsh expression x~y, include patterns that match x; exclude patterns that match y
-	set theme to gomdopi.zsh-theme
-		vi ~/.zshrc
-		set ZSH_THEME="gomdopi"
-		source ~/.zshrc # to reload changes
-
 configuring gnome-terminal
 	dconf-editor: to get schema/paths/more info about keys and such
 	GENERAL
-		gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar false
-		gsettings set org.gnome.Terminal.Legacy.Settings theme-variant 'dark' 
+		$ gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar false
+		$ gsettings set org.gnome.Terminal.Legacy.Settings theme-variant 'dark' 
 	KEYBINDINGS (https://unix.stackexchange.com/questions/297654/configuring-gnome-shell-key-bindings-from-the-command-line) && (https://unix.stackexchange.com/questions/296699/how-to-export-import-ubuntu-16-04-terminal-color-scheme/296768#296768)
-		GSETTINGS_SCHEMA=org.gnome.Terminal.Legacy.Keybindings
-		GSETTINGS_PATH=/org/gnome/terminal/legacy/keybindings/
-		SCHEMA_PATH=$GSETTINGS_SCHEMA:$GSETTINGS_PATH
-		gsettings set $SCHEMA_PATH close-tab '<Ctrl>w'
-		gsettings set $SCHEMA_PATH new-tab '<Ctrl>t'
-		gsettings set $SCHEMA_PATH next-tab '<Ctrl>Tab'
-		gsettings set $SCHEMA_PATH prev-tab '<Ctrl><Shift>Tab'
+		$ GSETTINGS_SCHEMA=org.gnome.Terminal.Legacy.Keybindings
+		$ GSETTINGS_PATH=/org/gnome/terminal/legacy/keybindings/
+		$ SCHEMA_PATH=$GSETTINGS_SCHEMA:$GSETTINGS_PATH
+		$ gsettings set $SCHEMA_PATH new-tab '<Ctrl>t'
+		$ gsettings set $SCHEMA_PATH close-tab '<Ctrl>w'
+		$ gsettings set $SCHEMA_PATH next-tab '<Ctrl>Tab'
+		$ gsettings set $SCHEMA_PATH prev-tab '<Ctrl><Shift>Tab'
 	COLORS (https://unix.stackexchange.com/questions/296699/how-to-export-import-ubuntu-16-04-terminal-color-scheme/296768#296768) && (https://askubuntu.com/questions/731774/how-to-change-gnome-terminal-profile-preferences-using-dconf-or-gsettings)
-		GSETTINGS_SCHEMA=org.gnome.Terminal.Legacy.Profile
-		GSETTINGS_PATH=/org/gnome/terminal/legacy/profiles:/
-		GSETTINGS_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
-		GSETTINGS_PROFILE=${GSETTINGS_PROFILE:1:-1}	#remove leading/trailing slash
-		SCHEMA_PATH=$GSETTINGS_SCHEMA:$GSETTINGS_PATH:$GSETTINGS_PROFILE/
-		gsettings set $SCHEMA_PATH visible-name 'gomdopi'
-		gsettings set $SCHEMA_PATH background-color '#000000'
-		gsettings set $SCHEMA_PATH foreground-color '#00FF41'
-		gsettings set $SCHEMA_PATH use-theme-colors false
-		gsettings set $SCHEMA_PATH default-size-columns 200
-		gsettings set $SCHEMA_PATH default-size-rows 50
-		gsettings set $SCHEMA_PATH palette "['rgb(0,0,0)', 'rgb(205,0,0)', 'rgb(0,205,0)', 'rgb(205,205,0)', 'rgb(0,0,238)', 'rgb(205,0,205)', 'rgb(0,205,205)', 'rgb(229,229,229)', 'rgb(127,127,127)', 'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(92,92,255)', 'rgb(255,0,255)', 'rgb(0,255,255)', 'rgb(255,255,255)']"
+		$ GSETTINGS_SCHEMA=org.gnome.Terminal.Legacy.Profile
+		$ GSETTINGS_PATH=/org/gnome/terminal/legacy/profiles:/
+		$ GSETTINGS_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
+		$ GSETTINGS_PROFILE=${GSETTINGS_PROFILE:1:-1}	#remove leading/trailing slash
+		$ SCHEMA_PATH=$GSETTINGS_SCHEMA:$GSETTINGS_PATH:$GSETTINGS_PROFILE/
+		$ gsettings set $SCHEMA_PATH visible-name 'gomdopi'
+		$ gsettings set $SCHEMA_PATH use-theme-colors false
+		$ gsettings set $SCHEMA_PATH background-color '#000000'
+		$ gsettings set $SCHEMA_PATH foreground-color '#00FF41'
+		$ gsettings set $SCHEMA_PATH default-size-columns 200
+		$ gsettings set $SCHEMA_PATH default-size-rows 50
+		$ gsettings set $SCHEMA_PATH palette "['rgb(0,0,0)', 'rgb(205,0,0)', 'rgb(0,205,0)', 'rgb(205,205,0)', 'rgb(0,0,238)', 'rgb(205,0,205)', 'rgb(0,205,205)', 'rgb(229,229,229)', 'rgb(127,127,127)', 'rgb(255,0,0)', 'rgb(0,255,0)', 'rgb(255,255,0)', 'rgb(92,92,255)', 'rgb(255,0,255)', 'rgb(0,255,255)', 'rgb(255,255,255)']"
+
+install spotify (https://www.spotify.com/us/download/linux/)
+	add their public gpg key for verification
+		$ curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add - 
+	add their dep repo to sources.list.d
+		$ echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+	$ sudo apt update
+	$ sudo apt install spotify-client
+
+install brave (https://brave-browser.readthedocs.io/en/latest/installing-brave.html)
+	$ curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
+	$ echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+	$ sudo apt update
+	$ sudo apt install brave-browser
+	set brave as default browser
+	configure it (dark theme, dont ask to save passwords, add lastpass extension, etc)
 
 install vim
-	sudo apt update
-	sudo apt install vim
-	sudo update-alternatives --config vi	# make sure vim is used instead of vim
+	$ sudo apt update
+	$ sudo apt install vim
+	$ sudo update-alternatives --config vi	# make sure vim is used instead of vim
+
+set vim as default editor system-wide
+	$ sudo update-alternatives --config editor
+	choose vim.basic
+
+install zsh (https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
+	$ sudo apt update
+	$ sudo apt install zsh
+	
+install git (https://git-scm.com/download/linux)
+	$ sudo apt update
+	$ sudo apt install git
+	
+install oh-my-zsh (https://github.com/ohmyzsh/ohmyzsh)
+	$ sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"	# need to log out and back in for default shell change to zsh to take effect
+
+set up ssh key with github (https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh)
+	$ ls -al ~/.ssh		# check for existing keys
+	$ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"		# generate a new ssh key
+	add newly generated ssh key to github account
+
+setting up oh-my-zsh (https://github.com/gomdopi/dev-env-setup/tree/master/zsh)
+	clone the repo
+		$ git clone git@github.com:gomdopi/dev-env-setup.git
+	cd to repo root
+		$ cd dev-env-setup
+	copy files to custom directory (https://stackoverflow.com/a/8088439)
+		$ setopt extendedglob
+		$ cp -r zsh/*~*.md ~/.oh-my-zsh/custom/		# (zsh expression x~y, include patterns that match x; exclude patterns that match y
+	set theme to gomdopi.zsh-theme
+		$ vi ~/.zshrc
+		$ set ZSH_THEME="gomdopi"
+		$ source ~/.zshrc # to reload changes	
+
+setting up github-repo-pat file for gcr() script
+	$ mkcd ~/dev/resources/secrets
+	$ vi github-repo-pat
+	copy github personal access token into github-repo-pat
+
+install powerline fonts #to fix missing emojis/icons (https://github.com/powerline/fonts)
+	$ sudo apt update
+	$ sudo apt-get install fonts-powerline
 
 install java 8 (https://stackoverflow.com/a/61902164)
 	add debian-stretch repo to its own sources.list.d for access to openjdk-8 pkg
-		echo "deb http://http.us.debian.org/debian stretch main" | sudo tee /etc/apt/sources.list.d/debian-stretch-openjdk-8.list
-	sudo apt update
-	sudo apt install openjdk-8-jdk
+		$ echo "deb http://http.us.debian.org/debian stretch main" | sudo tee /etc/apt/sources.list.d/debian-stretch-openjdk-8.list
+	$ sudo apt update
+	$ sudo apt install openjdk-8-jdk
 
 install java 11
-	sudo apt update
-	sudo apt install openjdk-11-jdk
+	$ sudo apt update
+	$ sudo apt install openjdk-11-jdk
 
 set up custom alternatives for java (https://stackoverflow.com/a/60377885)
 	make dir
-		mkdir /opt/java
-	sudo update-alternatives --install /opt/java/current java_home /usr/lib/jvm/java-11-openjdk-amd64 100
-	sudo update-alternatives --install /opt/java/current java_home /usr/lib/jvm/java-8-openjdk-amd64 200
-	export JAVA_HOME=/opt/java/current/bin
-	export PATH=$JAVA_HOME:$PATH
+		$ mkdir /opt/java
+	$ sudo update-alternatives --install /opt/java/current java_home /usr/lib/jvm/java-11-openjdk-amd64 100
+	$ sudo update-alternatives --install /opt/java/current java_home /usr/lib/jvm/java-8-openjdk-amd64 200
+	make sure below is in environment.zsh (should be at ~/${ZSH_CUSTOM}/)
+		export JAVA_HOME=/opt/java/current/bin
+		export PATH=$JAVA_HOME:$PATH
+	$ source ~/.zshrc	# for JAVA_HOME & PATH values/changes to take effect
 
 
 install intellij (https://www.jetbrains.com/help/idea/installation-guide.html#standalone)
 	get/find download link @ https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux&code=IIC
-	wget ${download_link}
-	wget ${download_liink_sha}
-	sha256sum --check {sha_file}	# verify proper download file (https://www.howtogeek.com/246332/how-to-verify-a-downloaded-linux-iso-file-wasnt-tampered-with/)
-	sudo tar -xzf ${idea_tar_file} -C /opt	# untar files to /opt
-	cd idea-IC-x-y-z/bin
-	./idea.sh	# run script to install and go through initial set up
+	$ mkcd ~/temp		# to remove tar/install files after installation is done
+	$ wget ${download_link}
+	$ wget ${download_link_sha}
+	$ sha256sum --check {sha_file}	# verify proper download file (https://www.howtogeek.com/246332/how-to-verify-a-downloaded-linux-iso-file-wasnt-tampered-with/)
+	$ sudo tar -xzf ${idea_tar_file} -C /opt	# x: extract files from an archive; z: filter archive through gzip; f: file to untar; C: dir to extract to
+	$ cd /opt/idea-IC-x-y-z/bin
+	$ ./idea.sh	# run script to install and go through initial set up
+
+configure intellij
+	install gomdopi-ui plugin
+		$ cd ${local-plugin-repo-dir}
+		$ git clone git@github.com:gomdopi/gomdopi-ui.git
+		File -> Settings -> Plugins -> Install Plugin from Disk... -> Choose ${local-plugin-repo-dir}/gomdopi-ui.jar
 	
-install spotify (https://www.spotify.com/us/download/linux/)
-	add their public gpg key for verification
-		curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add - 
-	add their dep repo to sources.list.d
-		echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-	sudo apt update
-	sudo apt install spotify-client
+	keymaps
+		terminal
+			open terminal ctrl+t
+		editor tabs
+			close		ctrl+w
+			re-open closed tab	ctrl+shift+t
+			select next tab		ctrl+tab
+			select previous tab	ctrl+shift+tab
 
 install maven
-
 
 install docker
