@@ -134,7 +134,7 @@ install intellij (https://www.jetbrains.com/help/idea/installation-guide.html#st
 	$ wget ${download_link}
 	$ wget ${download_link_sha}
 	$ sha256sum --check {sha_file}	# verify proper download file (https://www.howtogeek.com/246332/how-to-verify-a-downloaded-linux-iso-file-wasnt-tampered-with/)
-	$ sudo tar -xzf ${idea_tar_file} -C /opt	# x: extract files from an archive; z: filter archive through gzip; f: file to untar; C: dir to extract to
+	$ sudo tar -xzf ${idea_tar_file} -C /opt/idea	# x: extract files from an archive; z: filter archive through gzip; f: file to untar; C: dir to extract to
 	$ cd /opt/idea-IC-x-y-z/bin
 	$ ./idea.sh	# run script to install and go through initial set up
 
@@ -144,7 +144,7 @@ configure intellij
 		$ git clone git@github.com:gomdopi/gomdopi-ui.git
 		File -> Settings -> Plugins -> Install Plugin from Disk... -> Choose ${local-plugin-repo-dir}/gomdopi-ui.jar
 	
-	keymaps
+	keymaps	# store keymap xml file in ~/.config/JetBrains/IdeaIC${version}/keymaps/
 		terminal
 			open terminal ctrl+t
 		editor tabs
