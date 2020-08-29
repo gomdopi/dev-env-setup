@@ -64,6 +64,11 @@ set vim as default editor system-wide
 	$ sudo update-alternatives --config editor
 	choose vim.basic
 
+configure vim
+	vi .vimrc	#create .vimrc file
+	set number	# add in .vimrc, adds number lines on left hand side
+	syntax on	#enables syntax highlighting
+
 install zsh (https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
 	$ sudo apt update
 	$ sudo apt install zsh
@@ -111,6 +116,12 @@ install java 8 (https://stackoverflow.com/a/61902164)
 install java 11
 	$ sudo apt update
 	$ sudo apt install openjdk-11-jdk
+
+install amazon corretto java 11
+	$ wget -O- https://apt.corretto.aws/corretto.key | sudo apt-key add -
+	$ sudo add-apt-repository 'deb https://apt.corretto.aws stable main'
+	$ sudo apt-get update
+	$ sudo apt-get install -y java-11-amazon-corretto-jdk
 
 set up custom alternatives for java (https://stackoverflow.com/a/60377885)
 	make dir
