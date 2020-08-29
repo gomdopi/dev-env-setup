@@ -107,12 +107,6 @@ install powerline fonts #to fix missing emojis/icons (https://github.com/powerli
 	$ sudo apt update
 	$ sudo apt-get install fonts-powerline
 
-install java 8 (https://stackoverflow.com/a/61902164)
-	add debian-stretch repo to its own sources.list.d for access to openjdk-8 pkg
-		$ echo "deb http://http.us.debian.org/debian stretch main" | sudo tee /etc/apt/sources.list.d/debian-stretch-openjdk-8.list
-	$ sudo apt update
-	$ sudo apt install openjdk-8-jdk
-
 install java 11
 	$ sudo apt update
 	$ sudo apt install openjdk-11-jdk
