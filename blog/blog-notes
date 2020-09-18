@@ -1,0 +1,36 @@
+how to set up vim so it permanently displays line numbers on the left
+	create file @ ~/.vimrc -> add string 'set number'
+
+how to set "switch to next/prev tab" to "ctrl+tab/ctrl+shift+tab"
+	run following commands in terminal:
+		gsettings set org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/ next-tab '<Primary>Tab'
+		gsettings set org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/ prev-tab '<Primary><Shift>Tab'
+
+how to load application on login/startup
+	create a file @ ~/.config/autostart/{filename}.desktop and add following:
+		[Desktop Entry]
+		Type=Application
+		Exec={command} || {path_to_application}
+		Hidden=false
+		NoDisplay=false
+		X-GNOME-Autostart-enabled=true
+		Name[en_US]={startup_application_name}
+		Name={startup_application_name}
+		Comment[en_US]={description}
+		Comment={description}
+
+	e.g.
+		[Desktop Entry]
+		Type=Application
+		Exec=gnome-terminal --geometry 200x50+0+0
+		Hidden=false
+		NoDisplay=false
+		X-GNOME-Autostart-enabled=true
+		Name[en_US]=Terminal
+		Name=Terminal
+		Comment[en_US]=Starts terminal in left display
+		Comment=Starts terminal in left display
+
+how to set format + save to keybind in intellij idea
+	https://stackoverflow.com/questions/946993/intellij-reformat-on-file-save
+
