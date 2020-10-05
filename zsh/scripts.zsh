@@ -1,7 +1,7 @@
 ####################
 ###### general #####
 ####################
-mkcd() { #mkdir && cd
+mkcd() { # mkdir && cd
 	if [[ ! -n "$1" ]]; then
 		echo "Enter a directory name"
 	elif [[ -d "$1" ]]; then
@@ -11,7 +11,7 @@ mkcd() { #mkdir && cd
 	fi
 }
 
-mktc() { #mkdir && touch
+mktc() { # mkdir && touch
 	if [[ ! -n "$1" ]]; then
 		echo "Enter a directory/file name"
 	elif [[ -d "$(dirname "$1")" || -f "$1" ]]; then
@@ -24,7 +24,7 @@ mktc() { #mkdir && touch
 ###############
 ##### git #####
 ###############
-gcr() {( #git-create-repo
+gcr() {( # git-create-repo
 	set -e
 
 	if [[ $PWD/ != ~/dev/git/* ]]; then
@@ -59,3 +59,4 @@ gcr() {( #git-create-repo
 	git remote add origin git@github.com:gomdopi/${repository_name}.git
 	git push -u origin master
 )}
+
