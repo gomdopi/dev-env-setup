@@ -53,7 +53,8 @@ esac
   # what font the user is viewing this source code in. Do not replace the
   # escape sequence with a single literal character.
   # Do not change this! Do not make it '\u2b80'; that is the old, wrong code point.
-  SEGMENT_SEPARATOR=$'\ue0b0'
+  SEGMENT_SEPARATOR_LEFT=$'\ue0b0'
+  SEGMENT_SEPARATOR_RIGHT='\ue0b2'
 }
 
 # Begin a segment
@@ -64,7 +65,7 @@ prompt_segment() {
   [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
   [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
   if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
-    echo -n " %{$bg%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR%{$fg%} "
+    echo -n " %{$bg%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR_LEFT%{$fg%} "
   else
     echo -n "%{$bg%}%{$fg%} "
   fi
@@ -75,7 +76,7 @@ prompt_segment() {
 # End the prompt, closing any open segments
 prompt_end() {
   if [[ -n $CURRENT_BG ]]; then
-    echo -n " %{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
+    echo -n " %{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR_LEFT"
   else
     echo -n "%{%k%}"
   fi
@@ -88,7 +89,7 @@ prompt_end() {
 
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
-  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+  if [[ "$USERNAME" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
     prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
   fi
 }
@@ -109,11 +110,24 @@ prompt_git() {
    if [[ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]]; then
     repo_path=$(git rev-parse --git-dir 2>/dev/null)
     dirty=$(parse_git_dirty)
-    ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || \
+    ref="◈ $(git describe --exact-match --tags HEAD 2> /dev/null)" || \
+    ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
     if [[ -n $dirty ]]; then
       prompt_segment yellow black
     else
       prompt_segment green $CURRENT_FG
+    fi
+
+    local ahead behind
+    ahead=$(git log --oneline @{upstream}.. 2>/dev/null)
+    behind=$(git log --oneline ..@{upstream} 2>/dev/null)
+    if [[ -n "$ahead" ]] && [[ -n "$behind" ]]; then
+      PL_BRANCH_CHAR=$'\u21c5'
+    elif [[ -n "$ahead" ]]; then
+      PL_BRANCH_CHAR=$'\u21b1'
+    elif [[ -n "$behind" ]]; then
+      PL_BRANCH_CHAR=$'\u21b0'
     fi
 
     if [[ -e "${repo_path}/BISECT_LOG" ]]; then
@@ -131,11 +145,11 @@ prompt_git() {
     zstyle ':vcs_info:*' get-revision true
     zstyle ':vcs_info:*' check-for-changes true
     zstyle ':vcs_info:*' stagedstr '✚'
-    zstyle ':vcs_info:*' unstagedstr '●'
+    zstyle ':vcs_info:*' unstagedstr '±'
     zstyle ':vcs_info:*' formats ' %u%c'
     zstyle ':vcs_info:*' actionformats ' %u%c'
     vcs_info
-    echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}"
+    echo -n "${${ref:gs/%/%%}/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}"
   fi
 }
 
@@ -153,7 +167,7 @@ prompt_bzr() {
   if bzr_status=$(bzr status 2>&1); then
     status_mod=$(echo -n "$bzr_status" | head -n1 | grep "modified" | wc -m)
     status_all=$(echo -n "$bzr_status" | head -n1 | wc -m)
-    revision=$(bzr log -r-1 --log-format line | cut -d: -f1)
+    revision=${$(bzr log -r-1 --log-format line | cut -d: -f1):gs/%/%%}
     if [[ $status_mod -gt 0 ]] ; then
       prompt_segment yellow black "bzr@$revision ✚"
     else
@@ -183,7 +197,7 @@ prompt_hg() {
         # if working copy is clean
         prompt_segment green $CURRENT_FG
       fi
-      echo -n $(hg prompt "☿ {rev}@{branch}") $st
+      echo -n ${$(hg prompt "☿ {rev}@{branch}"):gs/%/%%} $st
     else
       st=""
       rev=$(hg id -n 2>/dev/null | sed 's/[^-0-9]//g')
@@ -197,7 +211,7 @@ prompt_hg() {
       else
         prompt_segment green $CURRENT_FG
       fi
-      echo -n "☿ $rev@$branch" $st
+      echo -n "☿ ${rev:gs/%/%%}@${branch:gs/%/%%}" $st
     fi
   fi
 }
@@ -209,9 +223,8 @@ prompt_dir() {
 
 # Virtualenv: current working virtualenv
 prompt_virtualenv() {
-  local virtualenv_path="$VIRTUAL_ENV"
-  if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
-    prompt_segment blue black "(`basename $virtualenv_path`)"
+  if [[ -n "$VIRTUAL_ENV" && -n "$VIRTUAL_ENV_DISABLE_PROMPT" ]]; then
+    prompt_segment blue black "(${VIRTUAL_ENV:t:gs/%/%%})"
   fi
 }
 
@@ -229,17 +242,36 @@ prompt_status() {
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
 
-#AWS Profile:
+# AWS Profile:
 # - display current AWS_PROFILE name
 # - displays yellow on red if profile name contains 'production' or
 #   ends in '-prod'
 # - displays black on green otherwise
 prompt_aws() {
-  [[ -z "$AWS_PROFILE" ]] && return
+  [[ -z "$AWS_PROFILE" || "$SHOW_AWS_PROMPT" = false ]] && return
   case "$AWS_PROFILE" in
-    *-prod|*production*) prompt_segment red yellow  "AWS: $AWS_PROFILE" ;;
-    *) prompt_segment green black "AWS: $AWS_PROFILE" ;;
+    *-prod|*production*) prompt_segment red yellow  "AWS: ${AWS_PROFILE:gs/%/%%}" ;;
+    *) prompt_segment green black "AWS: ${AWS_PROFILE:gs/%/%%}" ;;
   esac
+}
+
+# Timestamp:
+# from zsh2000 theme
+prompt_segment_right() {
+  local bg fg
+  [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
+  [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
+    echo -n "%K{$CURRENT_BG}%F{$1}$SEGMENT_SEPARATOR_RIGHT%{$bg%}%{$fg%} "
+  CURRENT_BG=$1
+  [[ -n $3 ]] && echo -n $3
+}
+
+prompt_time() {
+  prompt_segment_right green black '%D{%H:%M:%S} '
+}
+
+build_rprompt() {
+  prompt_time
 }
 
 ## Main prompt
@@ -248,7 +280,7 @@ build_prompt() {
   prompt_status
   prompt_virtualenv
   prompt_aws
-#  prompt_context
+  prompt_context
   prompt_dir
   prompt_git
   prompt_bzr
@@ -257,4 +289,4 @@ build_prompt() {
 }
 
 PROMPT='%{%f%b%k%}$(build_prompt) '
-RPROMPT='[%*]'
+RPROMPT='%{%f%b%k%}$(build_rprompt)'
